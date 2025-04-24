@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compliment-o-matic pour Maeva</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #3a3a3a;
+    }
+
+    #compliment {
+      font-size: 1.5rem;
+      margin: 30px 0;
+      padding: 20px;
+      border-radius: 15px;
+      background: #ffcbd6;
+      display: inline-block;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease-in-out;
+    }
+    .visible {
+      opacity: 1;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      background: #ffadc1;
+      color: #1e1e1e;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #ffcbd6;
+      transform: scale(1.05);
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💌 Un petit compliment pour toi, Mon coeur!💕🥰</h1>
+  <div id="compliment">Clique sur le bouton pour recevoir un compliment 😊</div>
+  <br><br>
+  <button onclick="generateCompliment()">Encore un !</button>
+  
+  <script>
+    const compliments = [
+      "Tu as une lumière dans les yeux qu’on ne trouve nulle part ailleurs.",
+      "Ton sourire pourrait réchauffer l’hiver.",
+      "Ta voix a une douceur qui reste en tête.",
+      "Tu as une grâce que même le vent envie.",
+      "Ton calme inspire la confiance.",
+      "Il y a une force tranquille dans ta manière d’être.",
+      "Ton rire est un remède à la grisaille.",
+      "Chaque mot que tu choisis semble pesé avec délicatesse.",
+      "Tu dégages une énergie qui apaise.",
+      "Ton naturel est ta plus grande beauté.",
+      "Tu fais partie de ces gens qu’on n’oublie jamais.",
+      "Il y a du soleil dans ta présence.",
+      "Tu es comme une mélodie qu’on veut entendre en boucle.",
+      "Même ton silence est élégant.",
+      "Tu inspires la sérénité.",
+      "Il y a dans tes yeux des histoires que personne d’autre ne porte.",
+      "Tu as un charisme silencieux qui impressionne.",
+      "Tu transformes l’ordinaire en spécial, juste par ta présence.",
+      "Tu es le genre de personne qui rend les journées plus douces.",
+      "Ton regard a quelque chose de magnétique.",
+      "Tu fais rayonner l’endroit où tu entres.",
+      "Ta façon de penser est brillante.",
+      "Tu as une classe naturelle, sans effort.",
+      "Tes gestes sont empreints de douceur.",
+      "Ton humour est fin, léger et unique.",
+      "Il y a de la poésie dans tes gestes.",
+      "Tu possèdes une rare authenticité.",
+      "Ton énergie a quelque chose de rassurant.",
+      "Tu as une sagesse qui dépasse ton âge.",
+      "Ton élégance est dans chaque détail.",
+      "Tu es un mélange parfait de force et de douceur.",
+      "Tu as une intelligence qui éclaire sans jamais éblouir.",
+      "Tu as l’art d’apaiser les cœurs sans dire un mot.",
+      "Il y a du mystère dans ta simplicité.",
+      "Tu es la preuve que la beauté peut être subtile.",
+      "Ton regard parle mille langues.",
+      "Ta présence change la température d’une pièce.",
+      "Tu inspires les autres sans même t’en rendre compte.",
+      "Tu es à la fois rare et précieuse.",
+      "Ton style est le reflet de ton âme.",
+      "Tu es le calme dans la tempête.",
+      "Tu as cette capacité à rendre les gens à l’aise.",
+      "Tes idées sont lumineuses.",
+      "Il y a dans ton rire une liberté contagieuse.",
+      "Tu es douce sans être fragile.",
+      "Tes silences sont profonds.",
+      "Tu as le don de voir ce que les autres ne remarquent pas.",
+      "Tu apportes de la valeur simplement en étant toi.",
+      "Tu as un sens de l’esthétique impressionnant.",
+      "Tu rends les choses compliquées plus simples.",
+      "Tu es un mystère qu’on a envie de découvrir lentement.",
+      "Tu fais du bien sans même essayer.",
+      "Ton regard peut faire taire mille doutes.",
+      "Tu as une présence qui rassure.",
+      "Tu es rare comme un lever de soleil qu’on ne voit qu’une fois.",
+      "Tu rends les silences beaux.",
+      "Tu as une façon de marcher qui exprime la confiance.",
+      "Tu rends le quotidien magique.",
+      "Ta gentillesse n’a pas besoin de justification.",
+      "Tu possèdes un charme discret mais puissant.",
+      "Il y a de la lumière en toi, même dans l’ombre.",
+      "Tu as une prestance naturelle.",
+      "Ton authenticité inspire.",
+      "Tu es une personne qui fait grandir les autres.",
+      "Il y a une aura unique autour de toi.",
+      "Ton calme est une forme de puissance.",
+      "Tu es captivante sans faire d’effort.",
+      "Tu es une énigme qu’on admire.",
+      "Tu sais rendre les gens importants.",
+      "Tu es précieuse sans être fragile.",
+      "Tu es un poème à toi seule.",
+      "Il y a une lumière douce dans ta façon d’exister.",
+      "Tu respires la sincérité.",
+      "Ton regard est un refuge.",
+      "Tu fais du silence une conversation.",
+      "Tu donnes un nouveau sens à la simplicité.",
+      "Tu es comme une brise qui calme la chaleur d’un jour lourd.",
+      "Tu n’as pas besoin de crier pour qu’on t’écoute.",
+      "Tu es apaisante comme une musique douce.",
+      "Tu as le don de rendre tout plus beau.",
+      "Tu es une douceur dans un monde brutal.",
+      "Tu es quelqu’un qu’on remarque même sans un mot.",
+      "Tu inspires le respect naturellement.",
+      "Tu as une lumière intérieure qui se voit de l’extérieur.",
+      "Tu es une évidence dans un monde flou.",
+      "Tu incarnes une certaine forme de grâce rare.",
+      "Ton intelligence brille dans ton regard.",
+      "Tu es une inspiration silencieuse.",
+      "Tu possèdes une beauté qu’on ne peut pas capturer.",
+      "Tu es unique sans le vouloir.",
+      "Tu es le genre de personne qu’on remercie d’avoir croisé.",
+      "Tu fais partie de ces âmes rares qui marquent les esprits.",
+      "Tu es un moment de calme dans le chaos.",
+      "Tu as une énergie qui attire naturellement le bien.",
+      "Tu es l’équilibre entre douceur et force.",
+      "Tu es un éclat de lumière dans un monde trop sombre.",
+      "Tu es le genre de beauté qu’on ressent plus qu’on ne voit.",
+      "Tu as un sens de la présence admirable.",
+      "Tu es un souffle d’air pur dans une pièce fermée.",
+      "Tu es exactement ce que ce monde a besoin de plus.",
+      "Tu es le genre de personne qu’on attendait sans le savoir."
+    ];
+
+    function generateCompliment() {
+      const index = Math.floor(Math.random() * compliments.length);
+      const compliment = compliments[index];
+      const complimentDiv = document.getElementById("compliment");
+      complimentDiv.classList.remove("visible");
+      setTimeout(() => {
+        complimentDiv.innerText = compliment;
+        complimentDiv.classList.add("visible");
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
